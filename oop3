@@ -1,0 +1,73 @@
+#include "Square.h"
+#include <cmath>
+#include <sstream>
+#include <iomanip>
+
+// Конструктор за замовчуванням
+Square::Square() : x1(0), y1(0), x2(1), y2(1) {}
+
+// Конструктор з параметрами
+Square::Square(double _x1, double _y1, double _x2, double _y2)
+{
+    SetX1(_x1);
+    SetY1(_y1);
+    SetX2(_x2);
+    SetY2(_y2);
+}
+
+// Конструктор копіювання
+Square::Square(const Square& s)
+{
+    *this = s;
+}
+
+// --- Сеттери ---
+void Square::SetX1(double value) { x1 = value; }
+void Square::SetY1(double value) { y1 = value; }
+void Square::SetX2(double value) { x2 = value; }
+void Square::SetY2(double value) { y2 = value; }
+
+// --- Обчислення довжини сторони ---
+double Square::Side() const
+{
+    double d = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)); // діагональ
+    return d / sqrt(2); // сторона квадрата
+}
+
+// --- Площа ---
+double Square::Area() const
+{
+    double a = Side();
+    return a * a;
+}
+
+// --- Периметр ---
+double Square::Perimeter() const
+{
+    return 4 * Side();
+}
+
+// --- Вивід у string ---
+Square::operator string() const
+{
+    stringstream sout;
+    sout << fixed << setprecision(2);
+    sout << "Square[ (" << x1 << "," << y1 << ") , ("
+        << x2 << "," << y2 << ") ]";
+    return sout.str();
+}
+
+// --- Оператор вводу ---
+istream& operator>>(istream& in, Square& s)
+{
+    cout << "Enter x1 y1 x2 y2: ";
+    in >> s.x1 >> s.y1 >> s.x2 >> s.y2;
+    return in;
+}
+
+// --- Оператор виводу ---
+ostream& operator<<(ostream& out, const Square& s)
+{
+    out << string(s); // використовуємо operator string()
+    return out;
+}
