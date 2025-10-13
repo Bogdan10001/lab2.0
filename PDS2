@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+int calc_f(int p, int q, int r) {
+    int q_equiv_r = (q == r);      // q ~ r (еквіваленція)
+    return (~p) | q_equiv_r;      // p → (q ~ r)
+}
+
+int main() {
+    cout << "p q r | q ~ r | f = p -> (q ~ r)\n";
+    cout << "--------------------------------\n";
+
+    for (int p = 0; p <= 1; p++) {
+        for (int q = 0; q <= 1; q++) {
+            for (int r = 0; r <= 1; r++) {
+                int q_equiv_r = (q == r);
+                int f = calc_f(p, q, r);
+                cout << p << " " << q << " " << r << " | "
+                    << q_equiv_r << "     | "
+                    << f << endl;
+            }
+        }
+    }
+
+    return 0;
+}
