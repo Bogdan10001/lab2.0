@@ -1,0 +1,111 @@
+#include <iostream>
+#include <iomanip>
+#include <Windows.h>
+
+using namespace std;
+
+// Завдання 1
+void arrangementsTask() {
+    int n, r;
+
+    cout << "Введіть n: ";
+    cin >> n;
+    cout << "Введіть r: ";
+    cin >> r;
+
+    long long P1 = 1;
+    for (int i = 1; i <= n; i++) {
+        P1 = P1 * i;
+    }
+
+    long long P2 = 1;
+    for (int i = 1; i <= n - r; i++) {
+        P2 = P2 * i;
+    }
+
+    long long A = P1 / P2;
+
+    cout << "Кількість усіх розміщень A(" << n << "," << r << ") = " << A << endl;
+}
+
+// Завдання 2
+void stirlingTask() {
+    int i;
+    cout << "\nВведіть номер варіанту i: ";
+    cin >> i;
+
+    int n = i + 5;
+    cout << "n = " << n << endl;
+
+    long long F[50][50]; // таблиця Стірлінга
+    long long B[50];     // числа Белла
+
+    // Ініціалізація
+    for (int j = 0; j <= n; j++) {
+        for (int k = 0; k <= n; k++) {
+            F[j][k] = 0;
+        }
+        B[j] = 0;
+    }
+
+    // Початкові умови
+    F[0][0] = 1;
+    for (int j = 1; j <= n; j++) {
+        F[j][1] = 1;
+        F[j][j] = 1;
+    }
+
+    // Обчислення чисел Стірлінга
+    for (int j = 2; j <= n; j++) {
+        for (int k = 2; k < j; k++) {
+            F[j][k] = F[j - 1][k - 1] + k * F[j - 1][k];
+        }
+    }
+
+    // Обчислення чисел Белла
+    for (int j = 1; j <= n; j++) {
+        for (int k = 1; k <= j; k++) {
+            B[j] += F[j][k];
+        }
+    }
+
+    cout << "\nТаблиця чисел Стірлінга другого роду та чисел Белла:\n\n";
+
+    cout << string(8 * n + 20, '-') << endl;
+
+    cout << setw(5) << "n" << " |";
+    for (int k = 1; k <= n; k++) {
+        cout << setw(8) << left << k;
+    }
+    cout << "   | " << "Ф(n)" << endl;
+
+    cout << string(8 * n + 20, '-') << endl;
+
+    for (int j = 1; j <= n; j++) {
+        cout << setw(5) << right << j << " |";
+        for (int k = 1; k <= n; k++) {
+            if (k <= j)
+                cout << setw(8) << left << F[j][k];
+            else
+                cout << setw(8) << " ";
+        }
+        cout << "   | " << setw(8) << left << B[j] << endl;
+    }
+    cout << string(8 * n + 20, '-') << endl;
+
+    cout << "\nОтже, B(" << n << ") = " << B[n] << endl;
+}
+
+int main()
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
+    cout << "=== Завдання 1 ===" << endl;
+    arrangementsTask();
+
+    cout << "\n=== Завдання 2 ===" << endl;
+    stirlingTask();
+
+    return 0;
+}
